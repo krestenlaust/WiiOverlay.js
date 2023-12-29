@@ -14,4 +14,33 @@ function createCanvasOverlay() {
   return canvas;
 }
 
-let ctx = createCanvasOverlay().getContext("2d");
+let ctx = createCanvasOverlay();
+let x;
+let y;
+
+
+
+class WiiMenu {
+  constructor(canvas){
+    this.canvas = canvas;
+    this.ctx = canvas.getContext("2d");
+  }
+
+  drawCursor() {
+    this.ctx.fillRect(x, y, 50, 50);
+    console.log(x, y);
+  }
+
+  drawWholeScreen(){
+    this.ctx.clearRect(0, 0, canvas.width, this.canvas.height);
+    this.drawCursor();
+  }
+}
+
+const wiimenu = new WiiMenu(canvas);
+document.addEventListener('mousemove', function(event) {
+  x = event.clientX;
+  y = event.clientY;
+
+  wiimenu.drawWholeScreen();
+});
