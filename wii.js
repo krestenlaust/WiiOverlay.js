@@ -42,6 +42,13 @@ class CursorPointer extends Pointer {
             this.x = event.clientX;
             this.y = event.clientY;
         });
+
+        document.addEventListener('mousedown', (_) => {
+            this.pointerType = PointerType.Grabbing;
+        });
+        document.addEventListener('mouseup', (_) => {
+            this.pointerType = PointerType.Normal;
+        });
     }
 }
 
@@ -81,6 +88,6 @@ function createCanvasOverlay() {
 let ctx = createCanvasOverlay();
 
 const wiioverlay = new WiiOverlay(canvas);
-document.addEventListener('mousemove', function (event) {
-    wiioverlay.drawWholeScreen();
-});
+document.addEventListener('mousemove', (_) => wiioverlay.drawWholeScreen());
+document.addEventListener('mouseup', (_) => wiioverlay.drawWholeScreen());
+document.addEventListener('mousedown', (_) => wiioverlay.drawWholeScreen());
