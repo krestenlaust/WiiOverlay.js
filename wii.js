@@ -28,7 +28,9 @@ class Pointer {
      * @param {CanvasRenderingContext2D} ctx 
      */
     draw(ctx) {
-        ctx.drawImage(this.pointerType, this.x, this.y);
+        const cursorOffsetX = -12;
+        const cursorOffsetY = -2;
+        ctx.drawImage(this.pointerType, this.x + cursorOffsetX, this.y + cursorOffsetY);
         ctx.fillText(this.player, this.x, this.y);
         console.log(this.x, this.y, this.player);
     }
