@@ -20,6 +20,7 @@ class Pointer {
         this.x = x;
         this.y = y;
         this.player = player;
+        this.pointerType = PointerType.Normal;
     }
 
     /**
@@ -27,7 +28,7 @@ class Pointer {
      * @param {CanvasRenderingContext2D} ctx 
      */
     draw(ctx) {
-        ctx.drawImage(res_p1_cursor, this.x, this.y);
+        ctx.drawImage(this.pointerType, this.x, this.y);
         ctx.fillText(this.player, this.x, this.y);
         console.log(this.x, this.y, this.player);
     }
@@ -54,7 +55,12 @@ function initializeImage(id, src) {
 }
 
 initializeImage("res_p1_cursor", "resources/p1_cursor.png");
+initializeImage("res_p1_cursor_grabbing", "resources/p1_cursor_grab.png");
 
+const PointerType = {
+    Normal: res_p1_cursor,
+    Grabbing: res_p1_cursor_grabbing
+}
 
 function createCanvasOverlay() {
     canvas = document.createElement('canvas');
