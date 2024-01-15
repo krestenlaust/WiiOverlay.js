@@ -54,13 +54,21 @@ class CursorPointer extends Pointer {
     }
 }
 
-function initializeImage(id, src) {
-    const newImg = document.createElement("img");
-    newImg.src = src;
-    newImg.id = id;
-    newImg.style = "display: none";
+function initializeSrcElement(elementType, id, src) {
+    const newElem = document.createElement(elementType);
+    newElem.src = src;
+    newElem.id = id;
+    newElem.style.display = "none";
 
-    document.body.appendChild(newImg);
+    document.body.appendChild(newElem);
+}
+
+function initializeImage(id, src) {
+    return initializeSrcElement("img", id, src);
+}
+
+function initializeVideo(id, src) {
+    return initializeSrcElement("video", id, src);
 }
 
 initializeImage("res_p1_cursor", "resources/p1_cursor.png");
