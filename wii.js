@@ -16,6 +16,7 @@ class WiiOverlay {
         // Render pointers.
         this.drawPointers();
 
+        // Reload this function.
         this.animationRequestID = requestAnimationFrame(() => this.drawWholeScreen());
     }
 
@@ -24,10 +25,35 @@ class WiiOverlay {
     }
 
     drawHomeMenu(){
-        // Reload this function until the video is over.
-        if(!res_vid_homemenu.ended){
-            this.ctx.drawImage(res_vid_homemenu, 0, 0);
+        this.ctx.drawImage(res_vid_homemenu, 0, 0);
+
+        // Get the pixel data
+        let imageData = this.ctx.getImageData(0, 0, canvas.width, canvas.height);
+        let data = imageData.data;
+
+        // Define the green color range to replace with transparency
+        const greenMin = [6, 254, 0];
+        const greenMax = [180, 255, 178];
+
+        for (var i = 0; i < data.length; i += 4) {
+          const isGreen = (
+            data[i] >= greenMin[0] && data[i] <= greenMax[0] &&
+            data[i + 1] >= greenMin[1] && data[i + 1] <= greenMax[1] &&
+            data[i + 2] >= greenMin[2] && data[i + 2] <= greenMax[2]
+          );
+
+          if (isGreen) {
+            // Set alpha channel to 0 for green pixels
+            data[i + 3] = 0;
+          }
         }
+
+        // Put the modified pixel data back onto the canvas
+        this.ctx.putImageData(imageData, 0, 0);
+    }
+
+    openHomeMenu(){
+        res_vid_homemenu.play();
     }
 
     startAnimation(){
@@ -56,7 +82,7 @@ class Pointer {
         const cursorOffsetY = -2;
         ctx.drawImage(this.pointerType, this.x + cursorOffsetX, this.y + cursorOffsetY);
         ctx.fillText(this.player, this.x, this.y);
-        console.log(this.x, this.y, this.player);
+        //console.log(this.x, this.y, this.player);
     }
 }
 
