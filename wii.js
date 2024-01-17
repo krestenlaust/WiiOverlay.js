@@ -10,6 +10,9 @@ class WiiOverlay {
         // Clear screen.
         this.ctx.clearRect(0, 0, canvas.width, this.canvas.height);
 
+        // Render home menu.
+        this.drawHomeMenu();
+
         // Render pointers.
         this.drawPointers();
 
@@ -18,6 +21,13 @@ class WiiOverlay {
 
     drawPointers(){
         this.pointers.forEach(p => p.draw(this.ctx));
+    }
+
+    drawHomeMenu(){
+        // Reload this function until the video is over.
+        if(!res_vid_homemenu.ended){
+            this.ctx.drawImage(res_vid_homemenu, 0, 0);
+        }
     }
 
     startAnimation(){
@@ -87,6 +97,7 @@ function initializeVideo(id, src) {
 
 initializeImage("res_p1_cursor", "resources/p1_cursor.png");
 initializeImage("res_p1_cursor_grabbing", "resources/p1_cursor_grab.png");
+initializeVideo("res_vid_homemenu", "resources/homemenu.mp4");
 
 const PointerType = {
     Normal: res_p1_cursor,
