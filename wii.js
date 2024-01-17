@@ -11,7 +11,21 @@ class WiiOverlay {
         this.ctx.clearRect(0, 0, canvas.width, this.canvas.height);
 
         // Render pointers.
+        this.drawPointers();
+
+        this.animationRequestID = requestAnimationFrame(() => this.drawWholeScreen());
+    }
+
+    drawPointers(){
         this.pointers.forEach(p => p.draw(this.ctx));
+    }
+
+    startAnimation(){
+        this.animationRequestID = requestAnimationFrame(() => this.drawWholeScreen());
+    }
+
+    endAnimation(){
+        cancelAnimationFrame(this.animationRequestID);
     }
 }
 
@@ -98,6 +112,4 @@ function createCanvasOverlay() {
 let ctx = createCanvasOverlay();
 
 const wiioverlay = new WiiOverlay(canvas);
-document.addEventListener('mousemove', (_) => wiioverlay.drawWholeScreen());
-document.addEventListener('mouseup', (_) => wiioverlay.drawWholeScreen());
-document.addEventListener('mousedown', (_) => wiioverlay.drawWholeScreen());
+wiioverlay.startAnimation();
